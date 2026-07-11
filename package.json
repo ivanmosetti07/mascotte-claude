@@ -1,0 +1,58 @@
+{
+  "name": "mascotte-claude",
+  "version": "0.1.0",
+  "description": "Draco — a cute desktop cat pet for macOS that chats with your Claude Code session. Local, no API.",
+  "main": "main.js",
+  "author": "ivanmosetti07",
+  "license": "MIT",
+  "homepage": "https://github.com/ivanmosetti07/mascotte-claude",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivanmosetti07/mascotte-claude.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ivanmosetti07/mascotte-claude/issues"
+  },
+  "keywords": [
+    "electron",
+    "desktop-pet",
+    "claude",
+    "claude-code",
+    "macos",
+    "mascot"
+  ],
+  "scripts": {
+    "start": "electron .",
+    "icon": "node build/make-icon.js",
+    "dist": "electron-builder --mac dir"
+  },
+  "build": {
+    "appId": "io.github.ivanmosetti07.mascotte-claude",
+    "productName": "Draco",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "prompt.html",
+      "prompt-preload.js",
+      "assets/**/*"
+    ],
+    "mac": {
+      "target": "dir",
+      "category": "public.app-category.entertainment",
+      "icon": "build/icon.png",
+      "identity": null
+    }
+  },
+  "devDependencies": {
+    "electron": "^43.1.0",
+    "electron-builder": "^26.15.3",
+    "sharp": "^0.35.3"
+  }
+}

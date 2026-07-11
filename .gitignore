@@ -1,0 +1,16 @@
+# dipendenze / dependencies
+node_modules/
+
+# build output (contiene l'app compilata — non pubblicare)
+dist/
+
+# dati di sessione locali / local session data
+.claude/
+draco-config.json
+
+# macOS
+.DS_Store
+
+# log
+*.log
+npm-debug.log*

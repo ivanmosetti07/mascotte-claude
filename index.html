@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Draco</title>
+</head>
+<body>
+  <div id="stage">
+    <!-- nuvoletta transitoria (saluti/stato quando il pannello è chiuso) -->
+    <div id="bubble" class="io hidden"><div id="bubble-text"></div></div>
+
+    <!-- pannello chat -->
+    <div id="chat" class="io hidden">
+      <div id="chat-head">
+        <button id="collapse" class="hbtn" title="Riduci">▼</button>
+        <button id="expand" class="hbtn" title="Espandi">▲</button>
+        <span id="chat-title">Draco · Claude</span>
+        <button id="chat-close" class="hbtn" title="Chiudi">✕</button>
+      </div>
+      <div id="chat-log"></div>
+      <div id="chat-input">
+        <input id="ask" type="text" placeholder="Scrivi a Claude…" autocomplete="off" />
+        <button id="send" title="Invia">➤</button>
+      </div>
+    </div>
+
+    <div id="fx"></div>
+    <canvas id="sprite" width="192" height="208"></canvas>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>

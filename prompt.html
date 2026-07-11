@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    :root { color-scheme: light dark; }
+    html, body { margin: 0; height: 100%; font: 13px -apple-system, "SF Pro Text", system-ui, sans-serif; }
+    body { display: flex; }
+    .wrap { margin: auto; width: 100%; box-sizing: border-box; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .title { font-weight: 700; font-size: 14px; }
+    input {
+      width: 100%; box-sizing: border-box; padding: 9px 11px; font-size: 13px;
+      border: 1px solid #c9c3ba; border-radius: 8px; outline: none;
+    }
+    input:focus { border-color: #d98b6a; }
+    .hint { font-size: 11px; opacity: 0.65; }
+    .row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 2px; }
+    button { padding: 7px 14px; font-size: 13px; border-radius: 8px; border: 1px solid #c9c3ba; background: transparent; cursor: pointer; }
+    button.primary { background: #d98b6a; border-color: #d98b6a; color: #fff; font-weight: 600; }
+    button.primary:hover { background: #cf7a55; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">🐾 Cambia sessione Claude</div>
+    <input id="url" type="text" placeholder="https://claude.ai/code/session_…" spellcheck="false" />
+    <div class="hint">Incolla il link di un'altra sessione Claude Code. Resti loggato (stesso account).</div>
+    <div class="row">
+      <button id="cancel">Annulla</button>
+      <button id="ok" class="primary">Cambia</button>
+    </div>
+  </div>
+  <script>
+    const inp = document.getElementById('url');
+    try { inp.value = window.promptApi.current() || ''; } catch (e) {}
+    inp.focus(); inp.select();
+    const ok = () => window.promptApi.submit(inp.value.trim());
+    document.getElementById('ok').onclick = ok;
+    document.getElementById('cancel').onclick = () => window.promptApi.cancel();
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') ok();
+      else if (e.key === 'Escape') window.promptApi.cancel();
+    });
+  </script>
+</body>
+</html>
