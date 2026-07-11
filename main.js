@@ -151,7 +151,11 @@ function changeSession(url) {
   saveCfg({ sessionUrl: url });
   primed = false; lastReplyText = ''; stable = 0; lastSent = ''; lastSentN = -1;
   if (claudeWin && !claudeWin.isDestroyed()) claudeWin.loadURL(url, { userAgent: UA });
-  if (petWin) { petWin.webContents.send('chat', { messages: [] }); petWin.webContents.send('claude', { generating: false }); }
+  if (petWin) {
+    petWin.webContents.send('chat', { messages: [] });
+    petWin.webContents.send('claude', { generating: false });
+    petWin.webContents.send('claude', { reply: 'Sessione cambiata ✓ — scrivimi pure.' });
+  }
 }
 function openSessionPrompt() {
   if (promptWin) { promptWin.focus(); return; }
@@ -182,7 +186,13 @@ ipcMain.on('set-ignore', (_e, ig) => { if (petWin) petWin.setIgnoreMouseEvents(!
 ipcMain.on('save-pos', (_e, pos) => saveCfg({ pos }));
 ipcMain.on('ask', (_e, text) => {
   if (!claudeWin) return;
-  claudeWin.webContents.executeJavaScript(injectScript(text), true).catch(() => {});
+  claudeWin.webContents.executeJavaScript(injectScript(text), true).then((res) => {
+    if (res === 'no-editor') {
+      // niente campo di scrittura: login scaduto o sessione senza chat → apri e avvisa
+      manualOpen = true; claudeWin.show(); claudeWin.focus();
+      if (petWin) petWin.webContents.send('claude', { reply: 'Non riesco a scrivere in questa sessione (login scaduto o sessione sbagliata). Ho aperto la finestra Claude: accedi via email o scegli una sessione valida, poi riprova.' });
+    }
+  }).catch(() => {});
   if (petWin) petWin.webContents.send('claude', { generating: true });
 });
 ipcMain.on('open-claude', () => { manualOpen = true; if (claudeWin) { claudeWin.show(); claudeWin.focus(); } });
